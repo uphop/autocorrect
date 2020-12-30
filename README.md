@@ -48,8 +48,7 @@ Type some text into the text area - the app will be capturing text, attempting t
 Here is an example of what you should see as the result:
 ![Screenshot](https://user-images.githubusercontent.com/74451637/103369209-30f6cb80-4ad2-11eb-8c4d-62fe2911efb8.png)
 
-And here is a recorded demo of autocorrect:
-[![Recorded_sample](http://img.youtube.com/vi/eA70enkT_Mc.jpg)](http://www.youtube.com/watch?v=eA70enkT_Mc)
+And [here is a recorded demo of autocorrect.](http://www.youtube.com/watch?v=eA70enkT_Mc)
 
 
 
