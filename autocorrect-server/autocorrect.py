@@ -4,6 +4,7 @@ from collections import Counter
 import logging
 import json
 from string_edits import StringEdits
+from edit_distance import EditDistance
 
 '''
 Init and configuration
@@ -19,6 +20,7 @@ class AutoCorrect:
     def __init__(self):
         self.vocab = self.load_vocabulary()
         self.string_edits = StringEdits()
+        self.edit_distance = EditDistance()
 
     # Loads vocabulary from JSON file
     def load_vocabulary(self):
@@ -43,7 +45,7 @@ class AutoCorrect:
         return text_words
     
     # Return a list of tuples with the most probable n corrected words and their probabilities
-    def get_corrections(self, word):
+    def get_suggestions(self, word):
         # init list of suggestions
         suggestions = []
 
@@ -74,9 +76,17 @@ class AutoCorrect:
 
         # split into words
         word_l = self.preprocess(text)
-
-        # get list of corrections for each word
+           
         for word in word_l:
-            autocorrect_result[word] = self.get_corrections(word)
+            # get list of suggestions for each word
+            suggestions = self.get_suggestions(word)
+
+            # get min edit distance for each word / suggestion pair
+            suggestions_with_distance = []
+            for suggestion in suggestions:
+                _, min_edit_distance = self.edit_distance.get_min_edit_distance(word, suggestion)
+                suggestions_with_distance.append({suggestion: str(min_edit_distance)})
+            
+            autocorrect_result[word] = suggestions_with_distance
             
         return autocorrect_result

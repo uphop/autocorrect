@@ -45,21 +45,23 @@ def autocorrect_message(message):
         sentence = request['sentence']
 
         # get autocorrect suggestions
-        check_results = auto_correct.check_text(sentence)
+        suggestions_with_distance = auto_correct.check_text(sentence)
 
         # prepare response
         response = {
             'key': request['key'],
             'sentence': sentence,
-            'suggestions': check_results
+            'suggestions': suggestions_with_distance
         }
-        logger.info(response)
 
         return json.dumps(response)
+
 
 '''
 Main handler for incoming client socket connections
 '''
+
+
 async def handler(websocket, path):
     while True:
         # retrieve request
@@ -76,9 +78,9 @@ async def handler(websocket, path):
 '''
 Init and start socket server
 '''
-logger.info("Starting server on host " + server_interface + ", port " + str(server_port))
+logger.info("Starting server on host " +
+            server_interface + ", port " + str(server_port))
 start_server = websockets.serve(
     handler, server_interface, server_port)
 loop.run_until_complete(start_server)
 loop.run_forever()
-

@@ -1,16 +1,15 @@
-# Real-time text autocorrect with English dictionary
+# Text auto-correct with Minimum Edit Distance
 
 ## Overview
 
-This is a simple web app plus a socket-based server demonstraing a real-time text auto-correction by vocabulary. Auto-correct is implemented by evaluating possible custom edits (single- and double-edit variations). The vocabulary is based on English dictionary. 
+This project implements a probabilistic spell-checking and auto-correction, based on this article: [How to Write a Spelling Corrector](https://norvig.com/spell-correct.html). 
+Mis-spelled words are detected by checking against a vocabulary (built based on [List of English words](https://github.com/dwyl/english-words)).
+Auto-correct is implemented by evaluating possible custom edits (single- and double-edit variations) of mis-spelled words, providing a list of suggestions with the minimum number of required edits between the mis-spelled word and the target suggested word.
+Required number of edits is calculated based on [Minimum Edit Distance algorithm](https://web.stanford.edu/class/cs124/lec/med.pdf).
 
 The project consists of the following modules:
-* `autocorrect-app`: a React application, which captures text input from a user, splits captured text into sentences, sends each sentence via a websocket to `autocorrect-server` for cross-chekcing, and then visualises suggested edits.
-* `autocorrect-server`: a Python-based server, which gets sentences from `autocorrect-app` via a websocket, and then provides back a list of recommended text edits. 
-
-The following are key 3rd party components used:
-* [sentence-splitter](https://www.npmjs.com/package/sentence-splitter) - used in `autocorrect-app` for splitting captured text into sentences
-* [List of English words](https://github.com/dwyl/english-words) - used in `autocorrect-server` for evaluting word correctness and possible edit
+* `autocorrect-app`: a React application, which captures text input from a user, splits captured text into sentences, sends each sentence via a websocket to `autocorrect-server` for spell-checking, and then visualises suggested edits.
+* `autocorrect-server`: a Python-based server, which gets sentences from `autocorrect-app` via a websocket, and then provides back a list of recommended edit suggestions.
 
 ## Setting-up
 
@@ -43,12 +42,12 @@ cd autocorrect-app &&  yarn start
 
 ## Usage
 
-Type some text into the text area - the app will be capturing text, attempting to split into sentences / provide suggested edits for unrecognized words, and visualise those as a set of action buttons. Each action button in turn will implement a specific suggestion edit.
+Type some text into the text area - the app will be capturing text, attempting to split into sentences / provide suggested edits with the count of required edits for all unrecognized words, and visualise those as a set of action buttons. Each action button in turn will implement a specific suggestion edit.
 
 Here is an example of what you should see as the result:
-![Screenshot](https://user-images.githubusercontent.com/74451637/103369209-30f6cb80-4ad2-11eb-8c4d-62fe2911efb8.png)
+![Screenshot](https://user-images.githubusercontent.com/74451637/103398561-e9118c00-4b45-11eb-942e-fc7818e07751.png)
 
-And [here is a recorded demo of autocorrect.](http://www.youtube.com/watch?v=eA70enkT_Mc)
+And [here is a recorded demo of autocorrect.](http://www.youtube.com/watch?v=10VITDvv6Ds)
 
 
 

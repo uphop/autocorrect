@@ -1,3 +1,4 @@
 python-dotenv==0.15.0
 regex==2020.11.13
 websockets==8.1
+numpy==1.19.4

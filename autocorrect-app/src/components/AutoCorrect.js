@@ -89,7 +89,7 @@ class AutoCorrect extends React.Component {
             <TextareaAutosize
                 aria-label="minimum height"
                 rowsMin={10}
-                placeholder="Enter some text to auto-correct" 
+                placeholder="Enter some text to auto-correct"
                 onInput={(event) => this.handleCapture(event.target.value)} value={this.state.text}> </TextareaAutosize>
         );
     }
@@ -101,7 +101,7 @@ class AutoCorrect extends React.Component {
 
         // generate new key and drop old one
         updatedSentences.delete(key);
-        const updatedKey = md5(updatedSentence); 
+        const updatedKey = md5(updatedSentence);
         updatedSentences[updatedKey] = updatedSentence;
 
         // update word in the full text, too
@@ -118,27 +118,29 @@ class AutoCorrect extends React.Component {
         this.state.sentences.forEach((sentence, key) => {
             const suggestions = sentence.suggestions;
             for (const word in suggestions) {
-                suggestions[word].forEach(suggested_edit => {
-                    suggestion_array.push({ key: key, word: word, suggested_edit: suggested_edit });
+                suggestions[word].forEach(suggested_edits => {
+                    for (const target_word in suggested_edits) {
+                        const edit_distance = suggested_edits[target_word];
+                        suggestion_array.push({ key: key, word: word, suggested_edit: target_word, edit_distance: suggested_edits[target_word] });
+                    }
+
                 });
             }
         });
 
         // prepare a list of buttons with recommended edits
         const buttonGroup = suggestion_array.map((t) => {
-            return ( 
-                <Button
-                    onClick={() => {this.acceptSuggestion(t.key, t.word, t.suggested_edit)}}>
-                        {t.word} >> {t.suggested_edit}
+            return (
+                <Button variant="contained" size="small"
+                    onClick={() => { this.acceptSuggestion(t.key, t.word, t.suggested_edit, t.edit_distance) }}>
+                    {t.word} >> {t.suggested_edit} ({t.edit_distance})
                 </Button>
             );
         });
 
         return (
             <div>
-                <ButtonGroup size="small" aria-label="small outlined button group">
-                    {buttonGroup}
-                </ButtonGroup>
+                {buttonGroup}
             </div >
         );
     }
