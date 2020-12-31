@@ -30,7 +30,7 @@ cd autocorrect-app && yarn install && cp .env.sample .env && cd..
 
 Install dependencies and prepare configuration for `autocorrect-server`:
 ```
-cd autocorrect-server && pip3 install -r requrements.txt && cp .example-env .env && cd..
+cd autocorrect-server && pip3 install -r requirements.txt && cp .example-env .env && cd..
 ```
 
 ## Starting-up
