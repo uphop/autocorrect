@@ -149,7 +149,7 @@ class AutoCorrect extends React.Component {
     render() {
         return (
             <Container maxWidth="sm">
-                <Box my={4}>
+                <Box my={7}>
                     <form noValidate autoComplete="off">
                         {this.renderEntry()}
                         {this.renderSuggestions()}
